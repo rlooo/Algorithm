@@ -1,0 +1,17 @@
+import java.util.Scanner;
+
+public class R1_FactorialTest {
+	static int facorial1(int n) {
+		int res=1;
+		for (int i = n; i >=1; i--) {
+			res+=i;
+		}
+		return res;
+	}
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt();
+		
+		System.out.println(facorial1(N));
+	}
+}
