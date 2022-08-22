@@ -9,15 +9,16 @@ public class Main_12891_DNA비밀번호 {
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
 		st = new StringTokenizer(bf.readLine(), " "); // 첫번째 줄
-		
-		int s = Integer.parseInt(st.nextToken());
-		int p = Integer.parseInt(st.nextToken());
+
+		int s = Integer.parseInt(st.nextToken()); // dna 문자열 길이
+		int p = Integer.parseInt(st.nextToken()); // 부분문자열 길이
 
 		String str = bf.readLine(); // 두번째 줄
-		char[] ch = new char[s]; //CCTGGATTG
+		char[] ch = new char[s]; // CCTGGATTG
 		ch = str.toCharArray();
 
 		int[] cnt = new int[4];
+		int[] mycnt = new int[4];
 		for (int i = 0; i < ch.length; i++) {
 			switch (ch[i]) {
 			case 'A':
@@ -34,25 +35,45 @@ public class Main_12891_DNA비밀번호 {
 				break;
 			}
 		}
+
+		int start = 0;
+		int end = ch.length - 1;
+		int num = 0;
+
 		
-		int num=0;
-		int type=4;
-		int type2=0;
-		st = new StringTokenizer(bf.readLine(), " ");
-		int[] arr = new int[4];
-		for (int i = 0; i < 4; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-			if(arr[i]!=0)type2++;
-			cnt[i]-=arr[i];
-			if(cnt[i]==0)type--;
-			num+=arr[i];
+		for(int i=start;i<=end;i++) {
+			switch (ch[i]) {
+			case 'A':
+				mycnt[0]++;
+				break;
+			case 'C':
+				mycnt[1]++;
+				break;
+			case 'G':
+				mycnt[2]++;
+				break;
+			case 'T':
+				mycnt[3]++;
+				break;
+			}	
+		}
+		for(int i=0;i<mycnt.length;i++) {
+			if(mycnt[i]!=0) {
+				start++;
+			}
 		}
 		
-		p-=num;
-		int result = Math.pow(type, p)*
 		
 		
 		
+
+		System.out.println(num + " " + start + " " + end);
+
+		if (end - start < p) {
+			// 최소 문자열 구해짐
+			// 조합 경우의 수 구해야됨
+
+		}
 
 	}
 

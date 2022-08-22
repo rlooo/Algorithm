@@ -25,7 +25,7 @@ public class Main_1874_스택수열 {
 		int num = 1;
 		s.add(0);
 		while (index < n) {
-			if (s.peek() <= arr[index]) {
+			if (s.peek() < arr[index]) {
 				s.push(num++);
 				sb.append("+");
 			}

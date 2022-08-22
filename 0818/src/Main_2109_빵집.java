@@ -65,6 +65,7 @@ public class Main_2109_빵집 {
 				if (map[next_x][next_y] == '.' && !isVisited[next_x][next_y]) {
 					DFS(next_x, next_y);
 					if(flag==true) return;
+
 				}
 			}
 		}
