@@ -14,41 +14,25 @@ public class Solution_4012_요리사 {
 		StringTokenizer st;
 
 		int T = Integer.parseInt(in.readLine());
-		
+
 		for (int test_case = 1; test_case <= T; test_case++) {
-			
+
 			int N = Integer.parseInt(in.readLine());
 
 			int[][] arr = new int[N + 1][N + 1];
-			
+
 			for (int i = 1; i <= N; i++) {
-				
+
 				st = new StringTokenizer(in.readLine(), " ");
-				
+
 				for (int j = 1; j <= N; j++) {
-					
+
 					arr[i][j] = Integer.parseInt(st.nextToken());
-				
+
 				}
-			}//입력
-			permutation(arr);
-			
-			
-			
-			
+			} // 입력
 
 		}
-	}
-
-	private static void permutation(int[][] arr, int cnt) {
-		if(cnt==2) {
-			
-		}
-		
-		for() {
-			
-		}
-		
 	}
 
 }
