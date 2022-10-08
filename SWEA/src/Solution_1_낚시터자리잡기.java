@@ -6,8 +6,6 @@ import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-import org.omg.CORBA.INTERNAL;
-
 public class Solution_1_낚시터자리잡기 {
 
 	static int n;
