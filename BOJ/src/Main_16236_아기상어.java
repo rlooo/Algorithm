@@ -3,177 +3,145 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main_16236_아기상어 {
-	static int N, M = 0;
-	static int[][] map;
-	static int[] dx = { 0, 0, -1, 1 };
-	static int[] dy = { -1, 1, 0, 0 };
-	static int sec = 0;
-	static int[][] visited;
+    static int[] dx = { 0, 0, -1, 1 };
+    static int[] dy = { -1, 1, 0, 0 };
+    static int time = 0;
+    static int N;
+    static Fish shark;
+    static int eat = 0;
 
-	static class Pair implements Comparable<Pair> {
-		int x;
-		int y;
+    static int[][] map;
+    static int[][] dist;
+    static boolean[][] visited;
+    static int[] fish;
 
-		Pair(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
+    static class Fish implements Comparable<Fish> {
+        int x;
+        int y;
+        int size;
+        int dist;
 
-		@Override
-		public int compareTo(Pair p) {
-			if(this.x==p.x) {
-				return this.y - p.y;
-			}
-			else {return (this.x-p.x)*(-1);}
-			
-		}
-	}
+        Fish(int x, int y, int size, int dist) {
+            this.x = x;
+            this.y = y;
+            this.size = size;
+            this.dist = dist;
+        }
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
+        @Override
+        public int compareTo(Fish f) {
+            if (this.dist == f.dist) {
+                if (this.x == f.x) { // x 오름차순 정렬
+                    return this.y - f.y;
+                }
+                return this.x - f.x;
+            }
 
-		st = new StringTokenizer(in.readLine(), " ");
-		N = Integer.parseInt(st.nextToken());
-		map = new int[N][N];
-		visited = new int[N][N];
+            return this.dist - f.dist;
+        }
 
-		int start_x = 0;
-		int start_y = 0;
-		for (int i = 0; i < N; i++) {
-			st = new StringTokenizer(in.readLine(), " ");
-			for (int j = 0; j < N; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
-				if (map[i][j] == 9) {
-					start_x = i;
-					start_y = j;
-				}
-				if (map[i][j] > 0 && map[i][j] != 9) {
-					M++;
-				}
-			}
-		}
-		System.out.println();
-		if(M==0) {
-			sb.append(0);
-		}
+    }
 
-		else {
-			bfs(start_x, start_y);
-			sb.append(sec);
-		}
-		
-		out.write(sb.toString());
-		out.flush();
-		out.close();
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
 
-	}
+        N = Integer.parseInt(in.readLine());
+        map = new int[N][N];
+        dist = new int[N][N];
+        visited = new boolean[N][N];
+        fish = new int[7];
 
-	private static void bfs(int start_x, int start_y) {
-		int size = 2;
-		int eated = 0;
-		ArrayList<Pair> arr = new ArrayList<>();
-		Queue<Pair> q = new LinkedList();
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(in.readLine());
+            for (int j = 0; j < N; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
+                if (map[i][j] == 9) {
+                    shark = new Fish(i, j, 2, 0);
+                }
+                if (map[i][j] != 0 && map[i][j] != 9) {
+                    fish[map[i][j]]++;
+                }
+            }
+        }
 
-		q.add(new Pair(start_x, start_y));
+        bfs(shark);
 
-		while (!q.isEmpty()) {
-			Pair cur = q.poll();
-			map[cur.x][cur.y] = 9;
-			int possibleEat = 0;
-			
-			for (int dir = 0; dir < 4; dir++) {
-				int nx = cur.x + dx[dir];
-				int ny = cur.y + dy[dir];
-				if (nx < 0 || ny < 0 || nx >= N || ny >= N)
-					continue;
-				if (map[nx][ny] == 9)
-					continue;
-				if (size < map[nx][ny]) continue;
+        sb.append(time);
+        out.write(sb.toString());
+        out.flush();
+        out.close();
+    }
 
-				if (size > map[nx][ny]&&map[nx][ny]!=0) {
-					possibleEat++;
-					arr.add(new Pair(nx, ny));
-					System.out.println(nx+" "+ny);
-				}
+    private static void bfs(Fish shark) {
+        Queue<Fish> q = new PriorityQueue<>();
+        q.add(shark);
+        visited[shark.x][shark.y] = true;
+        map[shark.x][shark.y] = 0;
+        while (!q.isEmpty()) {
+            Fish cur = q.poll();
 
-			}
-			
-			
-			if (possibleEat > 1) {
-				Collections.sort(arr);
-				for(int i=0;i<arr.size();i++) {
-					System.out.println(">> "+arr.get(i).x+" "+arr.get(i).y);
-				}
-//				System.out.println(arr.get(arr.size()-1).x+" "+arr.get(arr.size()-1).y);
-				q.add(new Pair(arr.get(arr.size()-1).x, arr.get(arr.size()-1).y));
-				sec++;
-				eated++;
-				arr.clear();
-			} else if (possibleEat == 1) {
-				q.add(new Pair(arr.get(0).x, arr.get(0).y));
-				sec++;
-				eated++;
-				arr.clear();
-			} else if (possibleEat == 0) {
-				for (int dir = 0; dir < 4; dir++) {
-					int nx = cur.x + dx[dir];
-					int ny = cur.y + dy[dir];
-					if (nx < 0 || ny < 0 || nx >= N || ny >= N)
-						continue;
-					if (size < map[nx][ny] || map[nx][ny] == 9)
-						continue;
+            if (map[cur.x][cur.y] != 0 && map[cur.x][cur.y] < shark.size) { // 물고기 먹을 수 있음
+                time += dist[cur.x][cur.y];
+                eat++;
+                fish[map[cur.x][cur.y]]--;
 
-					q.add(new Pair(nx, ny));
-					visited[nx][ny]=visited[cur.x][cur.y]+1;
-					System.out.println("visited "+visited[nx][ny]);
-					
-				}
-				
+                map[cur.x][cur.y] = 0;
 
-			}
+                for (int i = 0; i < N; i++) {
+                    for (int j = 0; j < N; j++) {
+                        visited[i][j] = false;
+                        dist[i][j] = 0;
+                        q.clear();
 
-			if (size == eated) {
-				size++;
-			}
+                    }
+                }
 
-			if (eated == M) {
-				
-				break;
-			}
-			for(int i=0;i<N;i++) {
-				for(int j=0;j<N;j++){
-					System.out.print(map[i][j]+" ");
-				}
-				System.out.println();
-			}
-			System.out.println();
-			
-			
+                visited[cur.x][cur.y] = true;
 
-		}
-		
-		System.out.println("visit");
-		for(int i=0;i<N;i++) {
-			for(int j=0;j<N;j++){
-				System.out.print(visited[i][j]+" ");
-			}
-			System.out.println();
-		}
-		System.out.println("size : " + size);
+                if (shark.size == eat) {
+                    shark.size++;
+                    eat = 0;
+                }
+            }
+            boolean flag = false;
+            for (int i = 1; i < 7; i++) {
+                if (fish[i] > 0) {
+                    flag = true;
+                    break;
+                }
+            }
 
+            if (flag == false) {
+                return;
+            }
 
-	}
-	
+            System.out.println(time);
+            for (int dir = 0; dir < 4; dir++) {
+                int nx = cur.x + dx[dir];
+                int ny = cur.y + dy[dir];
 
+                if (nx < 0 || ny < 0 || nx >= N || ny >= N)
+                    continue;
+                if (visited[nx][ny] != false)
+                    continue;
+                if (map[nx][ny] > shark.size)
+                    continue;
+
+                visited[nx][ny] = true;
+                dist[nx][ny] = dist[cur.x][cur.y] + 1;
+                q.add(new Fish(nx, ny, map[nx][ny], dist[nx][ny]));
+
+            }
+
+        }
+
+    }
 }
