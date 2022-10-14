@@ -123,7 +123,6 @@ public class Main_16236_아기상어 {
                 return;
             }
 
-            System.out.println(time);
             for (int dir = 0; dir < 4; dir++) {
                 int nx = cur.x + dx[dir];
                 int ny = cur.y + dy[dir];
