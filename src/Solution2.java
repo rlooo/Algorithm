@@ -10,8 +10,8 @@ public class Solution2 {
     public static void main(String[] args) {
         int[] music1 = { 10, 9, 4, 5, 12 };
         int[] music2 = { 6, 4, 2, 11 };
-        // System.out.println(solution(music1));
-        System.out.println(solution(music2));
+        System.out.println(solution(music1)); // 15
+        System.out.println(solution(music2)); // 13
     }
 
     public static int solution(int[] music) {
