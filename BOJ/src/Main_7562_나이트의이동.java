@@ -7,12 +7,12 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main_1012_유기농배추 {
-    static int M, N, K;
+public class Main_7562_나이트의이동 {
+    static int[] dx = { -2, -1, 1, 2, -2, -1, 1, 2 };
+    static int[] dy = { 1, 2, 2, 1, -1, -2, -2, -1 };
     static int[][] map;
-    static boolean[][] visited;
-    static int[] dx = { 0, 0, -1, 1 };
-    static int[] dy = { -1, 1, 0, 0 };
+    static int[][] dist;
+    static int l;
 
     static class Pair {
         int x;
@@ -32,69 +32,59 @@ public class Main_1012_유기농배추 {
         StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(in.readLine());
+
         for (int tc = 1; tc <= T; tc++) {
+            l = Integer.parseInt(in.readLine());
+
+            map = new int[l][l];
+            dist = new int[l][l];
+
             st = new StringTokenizer(in.readLine());
-            M = Integer.parseInt(st.nextToken());
-            N = Integer.parseInt(st.nextToken());
-            K = Integer.parseInt(st.nextToken());
+            Pair cur = new Pair(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 
-            map = new int[M][N];
-            visited = new boolean[M][N];
+            st = new StringTokenizer(in.readLine());
+            Pair des = new Pair(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 
-            for (int i = 0; i < K; i++) {
-                st = new StringTokenizer(in.readLine());
-                int X = Integer.parseInt(st.nextToken());
-                int Y = Integer.parseInt(st.nextToken());
-
-                map[X][Y] = 1;
-            }
-            int res = 0;
-            for (int i = 0; i < M; i++) {
-                for (int j = 0; j < N; j++) {
-                    if (map[i][j] != 1)
-                        continue;
-
-                    if (visited[i][j] != false)
-                        continue;
-
-                    bfs(new Pair(i, j));
-                    res++;
+            for (int i = 0; i < l; i++) {
+                for (int j = 0; j < l; j++) {
+                    dist[i][j] = -1;
                 }
             }
 
-            sb.append(res + "\n");
+            bfs(cur);
+
+            sb.append(dist[des.x][des.y] + "\n");
 
         }
         out.write(sb.toString());
         out.flush();
         out.close();
+
     }
 
     private static void bfs(Pair start) {
         Queue<Pair> q = new ArrayDeque<>();
         q.add(start);
-        visited[start.x][start.y] = true;
+        dist[start.x][start.y] = 0;
 
         while (!q.isEmpty()) {
             Pair cur = q.poll();
 
-            for (int dir = 0; dir < 4; dir++) {
+            for (int dir = 0; dir < 8; dir++) {
                 int nx = cur.x + dx[dir];
                 int ny = cur.y + dy[dir];
 
-                if (nx < 0 || ny < 0 || nx >= M || ny >= N)
+                if (nx < 0 || ny < 0 || nx >= l || ny >= l)
                     continue;
 
-                if (visited[nx][ny] != false)
-                    continue;
-
-                if (map[nx][ny] != 1)
+                if (dist[nx][ny] != -1)
                     continue;
 
                 q.add(new Pair(nx, ny));
-                visited[nx][ny] = true;
+                dist[nx][ny] = dist[cur.x][cur.y] + 1;
             }
-        }
 
+        }
     }
+
 }
