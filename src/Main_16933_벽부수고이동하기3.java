@@ -100,8 +100,8 @@ public class Main_16933_벽부수고이동하기3 {
             }
         }
 
-        for (int i = 0; i <= N; i++) {
-            for (int j = 0; j <= M; j++) {
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= M; j++) {
                 System.out.print("(" + dist[i][j][0] + " " + dist[i][j][1] + " " + dist[i][j][2] + ")");
             }
             System.out.println();
