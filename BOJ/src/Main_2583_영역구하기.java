@@ -49,17 +49,12 @@ public class Main_2583_영역구하기 {
 
             for (int j = x1; j < x2; j++) {
                 for (int k = y1; k < y2; k++) {
-                    visited[j][k] = true;
+                    visited[k][j] = true;
                 }
             }
 
         }
-        for (int i = 0; i < M; i++) {
-            for (int j = 0; j < N; j++) {
-                System.out.print(visited[i][j] + " ");
-            }
-            System.out.println();
-        }
+
         int cnt = 0;
         for (int j = 0; j < M; j++) {
             for (int k = 0; k < N; k++) {
