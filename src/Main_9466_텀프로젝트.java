@@ -24,8 +24,6 @@ public class Main_9466_텀프로젝트 {
                 arr[i] = Integer.parseInt(st.nextToken());
             }
 
-            dfs();
-
         }
 
     }
